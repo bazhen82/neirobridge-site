@@ -1,0 +1,15 @@
+services:
+  neirobridge-site:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: neirobridge-site
+    restart: unless-stopped
+    expose:
+      - "3000"
+    networks:
+      - stack_default
+
+networks:
+  stack_default:
+    external: true
