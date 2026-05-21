@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 
 const navItems = [
   { href: "#about", label: "Обо мне" },
+  { href: "#solutions", label: "Решения" },
   { href: "#projects", label: "Проекты" },
   { href: "#stack", label: "Стек" },
   { href: "#contacts", label: "Контакты" }

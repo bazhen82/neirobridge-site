@@ -5,6 +5,10 @@ services:
       dockerfile: Dockerfile
     container_name: neirobridge-site
     restart: unless-stopped
+    environment:
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      LEAD_TO_EMAIL: ${LEAD_TO_EMAIL:-}
+      LEAD_FROM_EMAIL: ${LEAD_FROM_EMAIL:-}
     expose:
       - "3000"
     networks:

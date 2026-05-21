@@ -12,6 +12,19 @@ const languageColors: Record<string, string> = {
   n8n: "bg-pink-300"
 };
 
+const businessDescriptions: Record<string, string> = {
+  RivalScope:
+    "AI-панель для анализа конкурентов: собирает данные с сайтов, сравнивает позиционирование и подсвечивает точки роста.",
+  MarketVision:
+    "AI-помощник для маркетплейсов: помогает готовить карточки товаров, описания и визуальные идеи для Ozon и Wildberries.",
+  "tasktreker-vk-n8n":
+    "n8n-сценарий для управления задачами из VK: дедлайны через GigaChat, синхронизация и напоминания.",
+  "neirobridge-site":
+    "Этот сайт как пример web-направления: Next.js, адаптивный UI, GitHub API, Docker и деплой за Caddy.",
+  anonspost: "Панель для ручных email-рассылок на Flask и SMTP: пример простого внутреннего бизнес-инструмента.",
+  presentBot: "Бот-проект для автоматизации повторяющихся действий и экспериментов с AI-сценариями."
+};
+
 function getTags(repo: GitHubRepo) {
   if (repo.topics && repo.topics.length > 0) {
     return repo.topics.slice(0, 4);
@@ -63,7 +76,7 @@ export function Projects({ repos }: { repos: GitHubRepo[] }) {
                   <ExternalLink className="h-4 w-4 text-cyan-200 opacity-0 transition group-hover:opacity-100" />
                 </h3>
                 <p className="mt-4 min-h-24 text-sm leading-7 text-slate-300">
-                  {repo.description ?? "AI-ready репозиторий для автоматизации и интеграций."}
+                  {businessDescriptions[repo.name] ?? repo.description ?? "AI-ready репозиторий для автоматизации и интеграций."}
                 </p>
                 <div className="mt-6 flex items-center justify-between border-t border-cyan-200/10 pt-5">
                   <span className="inline-flex items-center gap-2 text-sm text-slate-300">

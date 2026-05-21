@@ -26,22 +26,22 @@ export function Hero() {
             NeiroBridge — Интеллектуальные решения для вашего бизнеса
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
-            Проектирую AI-агентов, n8n-сценарии и автоматизированные системы, которые берут на себя рутину,
-            соединяют сервисы и помогают командам принимать решения быстрее.
+            Проектирую AI-агентов и n8n-сценарии для заявок, поддержки, задач, CRM и аналитики, чтобы бизнес
+            быстрее обрабатывал обращения и меньше зависел от ручной рутины.
           </p>
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
             <a
               href="#contacts"
               className="neon-button group inline-flex items-center justify-center gap-3 rounded-full bg-cyan-300 px-7 py-4 font-bold text-slate-950 transition hover:-translate-y-1 hover:bg-cyan-200"
             >
-              Выбрать канал связи
+              Получить бесплатную диагностику
               <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
             </a>
             <a
-              href="#projects"
+              href="#solutions"
               className="inline-flex items-center justify-center rounded-full border border-cyan-200/25 px-7 py-4 font-semibold text-cyan-100 transition hover:-translate-y-1 hover:bg-cyan-200/10"
             >
-              Смотреть проекты
+              Посмотреть решения
             </a>
           </div>
           <div className="mt-10 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
