@@ -20,15 +20,18 @@ Create `.env`:
 nano .env
 ```
 
-For the first test you can use Resend's onboarding sender:
+Use SMTP credentials from your hosting mailbox, for example `site@neirobridge.ru`:
 
 ```env
-RESEND_API_KEY=your_resend_api_key
+SMTP_HOST=your_smtp_host
+SMTP_PORT=465
+SMTP_USER=site@neirobridge.ru
+SMTP_PASS=your_mailbox_password
+SMTP_FROM=NeiroBridge <site@neirobridge.ru>
 LEAD_TO_EMAIL=bazhenov.maxim@gmail.com
-LEAD_FROM_EMAIL=NeiroBridge <onboarding@resend.dev>
 ```
 
-Later, after verifying `neirobridge.ru` in Resend, replace `LEAD_FROM_EMAIL` with an address on your domain.
+The public site does not expose `LEAD_TO_EMAIL`. It is used only inside the server container.
 
 ## 4. Build and start container
 

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
 type LeadPayload = {
   name?: string;
@@ -10,8 +10,6 @@ type LeadPayload = {
   consent?: string;
   website?: string;
 };
-
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 function sanitize(value: unknown) {
   return String(value ?? "")
@@ -42,13 +40,30 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Заполните имя, контакт, задачу и согласие" }, { status: 400 });
     }
 
-    if (!resend || !process.env.LEAD_TO_EMAIL || !process.env.LEAD_FROM_EMAIL) {
+    const smtpHost = process.env.SMTP_HOST;
+    const smtpPort = Number(process.env.SMTP_PORT ?? 465);
+    const smtpUser = process.env.SMTP_USER;
+    const smtpPass = process.env.SMTP_PASS;
+    const smtpFrom = process.env.SMTP_FROM;
+    const leadToEmail = process.env.LEAD_TO_EMAIL;
+
+    if (!smtpHost || !smtpUser || !smtpPass || !smtpFrom || !leadToEmail) {
       return NextResponse.json({ message: "Форма пока не настроена на сервере" }, { status: 503 });
     }
 
-    const { error } = await resend.emails.send({
-      from: process.env.LEAD_FROM_EMAIL,
-      to: process.env.LEAD_TO_EMAIL,
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpPort === 465,
+      auth: {
+        user: smtpUser,
+        pass: smtpPass
+      }
+    });
+
+    await transporter.sendMail({
+      from: smtpFrom,
+      to: leadToEmail,
       subject: `Новая заявка NeiroBridge: ${name}`,
       replyTo: isEmail(contact) ? contact : undefined,
       text: [
@@ -63,10 +78,6 @@ export async function POST(request: Request) {
         task
       ].join("\n")
     });
-
-    if (error) {
-      return NextResponse.json({ message: "Не удалось отправить заявку" }, { status: 502 });
-    }
 
     return NextResponse.json({ message: "Заявка отправлена" });
   } catch {

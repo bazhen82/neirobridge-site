@@ -8,7 +8,7 @@
 - Tailwind CSS
 - Framer Motion
 - GitHub API
-- Resend email API
+- SMTP/Nodemailer для заявок
 - Lucide React icons
 
 ## Запуск
@@ -27,9 +27,12 @@ npm run dev
 Скопируйте `.env.example` в `.env` и заполните:
 
 ```bash
-RESEND_API_KEY=
+SMTP_HOST=
+SMTP_PORT=465
+SMTP_USER=
+SMTP_PASS=
+SMTP_FROM=NeiroBridge <site@neirobridge.ru>
 LEAD_TO_EMAIL=bazhenov.maxim@gmail.com
-LEAD_FROM_EMAIL=NeiroBridge <onboarding@resend.dev>
 ```
 
 `LEAD_TO_EMAIL` используется только на сервере и не публикуется в HTML.

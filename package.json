@@ -12,13 +12,14 @@
     "framer-motion": "latest",
     "lucide-react": "latest",
     "next": "latest",
+    "nodemailer": "^8.0.7",
     "react": "latest",
-    "react-dom": "latest",
-    "resend": "^6.12.3"
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "latest",
     "@types/node": "latest",
+    "@types/nodemailer": "^8.0.0",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",
