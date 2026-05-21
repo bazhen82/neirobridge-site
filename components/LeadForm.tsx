@@ -8,13 +8,15 @@ type SubmitState = "idle" | "loading" | "success" | "error";
 export function LeadForm() {
   const [state, setState] = useState<SubmitState>("idle");
   const [message, setMessage] = useState("");
+  const [channel, setChannel] = useState("Telegram");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
     setState("loading");
     setMessage("");
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
 
     try {
@@ -32,7 +34,8 @@ export function LeadForm() {
         throw new Error(result.message ?? "Не удалось отправить заявку");
       }
 
-      event.currentTarget.reset();
+      form.reset();
+      setChannel("Telegram");
       setState("success");
       setMessage("Заявка отправлена. Я свяжусь с вами после изучения задачи.");
     } catch (error) {
@@ -88,16 +91,23 @@ export function LeadForm() {
 
       <label className="grid gap-2 text-sm text-slate-300">
         Удобный канал связи
-        <select
-          name="channel"
-          className="rounded-2xl border border-cyan-200/15 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-cyan-200/60"
-          defaultValue="Telegram"
-        >
-          <option>Telegram</option>
-          <option>E-mail</option>
-          <option>Телефон</option>
-          <option>MAX</option>
-        </select>
+        <input type="hidden" name="channel" value={channel} />
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {["Telegram", "E-mail", "Телефон", "MAX"].map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => setChannel(option)}
+              className={`rounded-2xl border px-4 py-3 text-sm font-semibold transition ${
+                channel === option
+                  ? "border-cyan-200/60 bg-cyan-300 text-slate-950 shadow-[0_0_22px_rgba(103,246,255,0.28)]"
+                  : "border-cyan-200/15 bg-black/30 text-slate-300 hover:border-cyan-200/40 hover:bg-cyan-200/10"
+              }`}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
       </label>
 
       <label className="flex items-start gap-3 text-sm leading-6 text-slate-400">
