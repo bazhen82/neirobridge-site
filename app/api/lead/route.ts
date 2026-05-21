@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Форма пока не настроена на сервере" }, { status: 503 });
     }
 
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: process.env.LEAD_FROM_EMAIL,
       to: process.env.LEAD_TO_EMAIL,
       subject: `Новая заявка NeiroBridge: ${name}`,
@@ -63,6 +63,10 @@ export async function POST(request: Request) {
         task
       ].join("\n")
     });
+
+    if (error) {
+      return NextResponse.json({ message: "Не удалось отправить заявку" }, { status: 502 });
+    }
 
     return NextResponse.json({ message: "Заявка отправлена" });
   } catch {
