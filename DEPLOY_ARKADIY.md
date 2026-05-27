@@ -70,7 +70,12 @@ RAG_SCORE_THRESHOLD=0.38
 
 ```bash
 docker compose -p neirobridge-site up -d --build
+docker compose -p neirobridge-site logs -f --tail=30
 ```
+
+`Ctrl+C` чтобы выйти из логов.
+
+> **Важно:** в `docker-compose.yml` переменные `OPENAI_*` пробрасываются в контейнер — без них чат не ответит.
 
 ---
 
