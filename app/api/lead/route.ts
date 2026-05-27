@@ -9,12 +9,14 @@ type LeadPayload = {
   channel?: string;
   consent?: string;
   website?: string;
+  source?: string;
+  chatContext?: string;
 };
 
-function sanitize(value: unknown) {
+function sanitize(value: unknown, max = 2000) {
   return String(value ?? "")
     .trim()
-    .slice(0, 2000);
+    .slice(0, max);
 }
 
 function isEmail(value: string) {
@@ -35,6 +37,8 @@ export async function POST(request: Request) {
     const task = sanitize(body.task);
     const channel = sanitize(body.channel);
     const consent = sanitize(body.consent);
+    const source = sanitize(body.source, 100) || "site-form";
+    const chatContext = sanitize(body.chatContext, 3000);
 
     if (!name || !contact || !task || !consent) {
       return NextResponse.json({ message: "Заполните имя, контакт, задачу и согласие" }, { status: 400 });
@@ -64,19 +68,25 @@ export async function POST(request: Request) {
     await transporter.sendMail({
       from: smtpFrom,
       to: leadToEmail,
-      subject: `Новая заявка NeiroBridge: ${name}`,
+      subject: `NeiroBridge заявка (${source}): ${name}`,
       replyTo: isEmail(contact) ? contact : undefined,
       text: [
         "Новая заявка с сайта NeiroBridge",
         "",
+        `Источник: ${source}`,
         `Имя: ${name}`,
         `Компания/проект: ${company || "Не указано"}`,
         `Контакт: ${contact}`,
         `Удобный канал: ${channel || "Не указан"}`,
         "",
         "Задача:",
-        task
-      ].join("\n")
+        task,
+        chatContext ? "" : undefined,
+        chatContext ? "Контекст чата:" : undefined,
+        chatContext || undefined
+      ]
+        .filter(Boolean)
+        .join("\n")
     });
 
     return NextResponse.json({ message: "Заявка отправлена" });
