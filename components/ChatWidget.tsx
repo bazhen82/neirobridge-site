@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type RefObject } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Bot, MessageCircle, Send, X } from "lucide-react";
 import type { ChatMessage } from "@/lib/rag/types";
@@ -13,6 +13,24 @@ const STARTER_PROMPTS = [
 ];
 
 type View = "chat" | "lead";
+
+function useContainScroll(ref: RefObject<HTMLDivElement | null>, enabled: boolean) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !enabled) return;
+
+    const onWheel = (event: WheelEvent) => {
+      event.stopPropagation();
+      const { scrollTop, scrollHeight, clientHeight } = el;
+      const atTop = scrollTop <= 0 && event.deltaY < 0;
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 1 && event.deltaY > 0;
+      if (atTop || atBottom) event.preventDefault();
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, [ref, enabled]);
+}
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -31,6 +49,10 @@ export function ChatWidget() {
   const [leadStatus, setLeadStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [leadMessage, setLeadMessage] = useState("");
   const listRef = useRef<HTMLDivElement>(null);
+  const leadRef = useRef<HTMLDivElement>(null);
+
+  useContainScroll(listRef, open && view === "chat");
+  useContainScroll(leadRef, open && view === "lead");
 
   useEffect(() => {
     const seen = localStorage.getItem("arkadiy-hint-seen");
@@ -156,9 +178,9 @@ export function ChatWidget() {
             initial={{ opacity: 0, y: 16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
-            className="glass-panel fixed bottom-24 right-6 z-50 flex h-[min(520px,calc(100vh-7rem))] w-[min(380px,calc(100vw-2rem))] flex-col overflow-hidden rounded-[1.5rem]"
+            className="glass-panel fixed bottom-24 right-4 z-50 flex h-[min(640px,calc(100dvh-6.5rem))] w-[min(420px,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-[1.5rem] sm:right-6"
           >
-            <header className="flex items-center justify-between border-b border-cyan-200/15 px-4 py-3">
+            <header className="flex shrink-0 items-center justify-between border-b border-cyan-200/15 px-4 py-3">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-300/15 text-cyan-200">
                   <Bot className="h-5 w-5" />
@@ -180,11 +202,14 @@ export function ChatWidget() {
 
             {view === "chat" ? (
               <>
-                <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+                <div
+                  ref={listRef}
+                  className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4"
+                >
                   {messages.map((message, index) => (
                     <div
                       key={`${message.role}-${index}`}
-                      className={`max-w-[90%] rounded-2xl px-3 py-2 text-sm leading-6 ${
+                      className={`max-w-[90%] rounded-2xl px-3 py-2 text-[13px] leading-5 sm:text-sm sm:leading-6 ${
                         message.role === "user"
                           ? "ml-auto bg-cyan-300 text-slate-950"
                           : "border border-cyan-200/15 bg-black/30 text-slate-200"
@@ -194,23 +219,25 @@ export function ChatWidget() {
                     </div>
                   ))}
                   {loading && (
-                    <p className="text-sm text-cyan-200/70">📚 Ищу в базе знаний NeiroBridge…</p>
+                    <p className="text-sm text-cyan-200/70">Ищу в базе знаний NeiroBridge…</p>
                   )}
                 </div>
 
-                <div className="border-t border-cyan-200/10 px-4 py-3">
-                  <div className="mb-3 flex flex-wrap gap-2">
-                    {STARTER_PROMPTS.map((prompt) => (
-                      <button
-                        key={prompt}
-                        type="button"
-                        onClick={() => sendMessage(prompt)}
-                        className="rounded-full border border-cyan-200/20 bg-black/20 px-3 py-1 text-xs text-slate-300 transition hover:border-cyan-200/50 hover:text-white"
-                      >
-                        {prompt}
-                      </button>
-                    ))}
-                  </div>
+                <div className="shrink-0 border-t border-cyan-200/10 px-3 py-2.5 sm:px-4 sm:py-3">
+                  {messages.length <= 2 && (
+                    <div className="mb-2 flex flex-wrap gap-1.5">
+                      {STARTER_PROMPTS.map((prompt) => (
+                        <button
+                          key={prompt}
+                          type="button"
+                          onClick={() => sendMessage(prompt)}
+                          className="rounded-full border border-cyan-200/20 bg-black/20 px-2.5 py-1 text-[11px] leading-4 text-slate-300 transition hover:border-cyan-200/50 hover:text-white"
+                        >
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
+                  )}
 
                   <form
                     onSubmit={(event) => {
@@ -223,12 +250,12 @@ export function ChatWidget() {
                       value={input}
                       onChange={(event) => setInput(event.target.value)}
                       placeholder="Ваш вопрос…"
-                      className="flex-1 rounded-2xl border border-cyan-200/15 bg-black/30 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-600 focus:border-cyan-200/50"
+                      className="min-w-0 flex-1 rounded-2xl border border-cyan-200/15 bg-black/30 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-600 focus:border-cyan-200/50"
                     />
                     <button
                       type="submit"
                       disabled={loading}
-                      className="neon-button rounded-full bg-cyan-300 p-2 text-slate-950 disabled:opacity-50"
+                      className="neon-button shrink-0 rounded-full bg-cyan-300 p-2 text-slate-950 disabled:opacity-50"
                       aria-label="Отправить"
                     >
                       <Send className="h-5 w-5" />
@@ -238,17 +265,17 @@ export function ChatWidget() {
                   <button
                     type="button"
                     onClick={() => setView("lead")}
-                    className="mt-3 w-full rounded-full border border-cyan-200/25 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-200/10"
+                    className="mt-2 w-full rounded-full border border-cyan-200/25 px-3 py-1.5 text-xs font-semibold text-cyan-100 transition hover:bg-cyan-200/10 sm:text-sm"
                   >
                     Записаться на бесплатную диагностику
                   </button>
-                  <p className="mt-2 text-center text-[11px] leading-4 text-slate-500">
-                    Ответы по материалам NeiroBridge. Не юридическая консультация.
-                  </p>
                 </div>
               </>
             ) : (
-              <div className="flex flex-1 flex-col overflow-y-auto px-4 py-4">
+              <div
+                ref={leadRef}
+                className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4"
+              >
                 <button
                   type="button"
                   onClick={() => setView("chat")}

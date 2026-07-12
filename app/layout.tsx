@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     siteName: "NeiroBridge",
     images: [
       {
-        url: "/og-neirobridge.png",
+        url: "/og-neirobridge.jpg",
         width: 1200,
         height: 630,
         alt: "NeiroBridge"

@@ -39,6 +39,19 @@ function sanitize(value: unknown, max = 1200) {
 const OFF_TOPIC =
   /(политик|порно|наркот|взлом|crack|warez|генocide|напиши код|реши задач)/i;
 
+/** Short greetings / thanks — answer without RAG so “привет” never hits the fallback. */
+const GREETING =
+  /^(привет|здравствуй(те)?|добр(ый|ое|ого)\s+(день|утро|вечер)|хай|хеллоу|hello|hi|hey|здарова|салют|доброго|йо|yo)[\s!.?,…]*$/i;
+
+const THANKS =
+  /^(спасибо|благодарю|thanks|thank you|спс|ок|окей|ясно|понятно|отлично|супер)[\s!.?,…]*$/i;
+
+const GREETING_REPLY =
+  "Привет! Я Аркадий, Neiro-консультант NeiroBridge. Могу рассказать про услуги, цены, интеграции и бесплатную диагностику. Что интересует?";
+
+const THANKS_REPLY =
+  "Пожалуйста! Если появятся вопросы по автоматизации или AI-агентам — пишите. Или запишитесь на бесплатную диагностику.";
+
 const FALLBACK_REPLY =
   "По этому вопросу в базе NeiroBridge нет точного ответа. Могу предложить бесплатную диагностику процесса: за 1–2 дня разберём ваш кейс и подскажем, с чего начать. Нажмите «Записаться на диагностику» — это 0 ₽ и без обязательств.";
 
@@ -62,6 +75,24 @@ export async function POST(request: Request) {
           "Я отвечаю только по услугам, ценам и процессам NeiroBridge. Если нужна помощь с автоматизацией — опишите задачу или запишитесь на бесплатную диагностику.",
         foundInKnowledge: false,
         suggestLead: true
+      };
+      return NextResponse.json(payload);
+    }
+
+    if (GREETING.test(message)) {
+      const payload: ChatResponse = {
+        reply: GREETING_REPLY,
+        foundInKnowledge: true,
+        suggestLead: false
+      };
+      return NextResponse.json(payload);
+    }
+
+    if (THANKS.test(message)) {
+      const payload: ChatResponse = {
+        reply: THANKS_REPLY,
+        foundInKnowledge: true,
+        suggestLead: false
       };
       return NextResponse.json(payload);
     }
