@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ExternalLink, GitFork, GitPullRequest, Star } from "lucide-react";
-import type { GitHubRepo } from "@/lib/github";
+import { getRepoDisplayName, type GitHubRepo } from "@/lib/github";
 import { Reveal } from "./Reveal";
 
 const languageColors: Record<string, string> = {
@@ -21,6 +21,10 @@ const businessDescriptions: Record<string, string> = {
     "n8n-сценарий для управления задачами из VK: дедлайны через GigaChat, синхронизация и напоминания.",
   "neirobridge-site":
     "Этот сайт как пример web-направления: Next.js, адаптивный UI, GitHub API, Docker и деплой за Caddy.",
+  "deskmate-bot":
+    "Мультимодальный Telegram-ассистент: GPT-4o, RAG, Whisper, Vision — пример AI-продукта NeiroBridge.",
+  "beanbonus-bot":
+    "Telegram-бот лояльности для кофеен: бонусные баллы и режим продавца.",
   anonspost: "Панель для ручных email-рассылок на Flask и SMTP: пример простого внутреннего бизнес-инструмента.",
   presentBot: "Бот-проект для автоматизации повторяющихся действий и экспериментов с AI-сценариями."
 };
@@ -38,11 +42,10 @@ export function Projects({ repos }: { repos: GitHubRepo[] }) {
     <section id="projects" className="px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <Reveal className="max-w-3xl">
-          <p className="font-mono text-sm uppercase tracking-[0.32em] text-cyan-200">GitHub Projects</p>
+          <p className="font-mono text-sm uppercase tracking-[0.32em] text-cyan-200">Portfolio</p>
           <h2 className="mt-4 text-3xl font-black text-white sm:text-5xl">Проекты как живые бизнес-сценарии</h2>
           <p className="mt-5 text-lg leading-8 text-slate-300">
-            Нажмите на карточку, чтобы открыть проект на GitHub: там можно посмотреть код, описание решения и
-            технологии, которые использовались в работе.
+            Кейсы NeiroBridge на GitHub: откройте карточку, чтобы посмотреть код, описание решения и стек.
           </p>
         </Reveal>
 
@@ -71,9 +74,9 @@ export function Projects({ repos }: { repos: GitHubRepo[] }) {
                     </span>
                   </div>
                 </div>
-                <h3 className="mt-6 flex items-center gap-2 text-2xl font-bold text-white">
-                  {repo.name}
-                  <ExternalLink className="h-4 w-4 text-cyan-200 opacity-0 transition group-hover:opacity-100" />
+                <h3 className="mt-6 flex items-center gap-2 text-xl font-bold text-white sm:text-2xl">
+                  {getRepoDisplayName(repo.name)}
+                  <ExternalLink className="h-4 w-4 shrink-0 text-cyan-200 opacity-0 transition group-hover:opacity-100" />
                 </h3>
                 <p className="mt-4 min-h-24 text-sm leading-7 text-slate-300">
                   {businessDescriptions[repo.name] ?? repo.description ?? "AI-ready репозиторий для автоматизации и интеграций."}
