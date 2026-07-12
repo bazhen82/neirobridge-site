@@ -23,9 +23,9 @@ export const repoDisplayNames: Record<string, string> = {
   "beanbonus-bot": "BeanBonus — бот лояльности"
 };
 
-const HIDDEN_REPOS = new Set(["bazhen82"]);
+const HIDDEN_REPOS = new Set(["NeiroBridge", "bazhen82"]);
 
-const GITHUB_USER = "bazhen82";
+const GITHUB_USER = "NeiroBridge";
 
 const fallbackRepos: GitHubRepo[] = [
   {

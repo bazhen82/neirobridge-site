@@ -14,7 +14,7 @@ git commit -m "Add Arkadiy RAG chat widget"
 git push origin main
 ```
 
-**Проверка:** на https://github.com/bazhen82/neirobridge-site есть коммит с `ChatWidget.tsx`, `app/api/chat`, `lib/rag/chunks.json`.
+**Проверка:** на https://github.com/NeiroBridge/neirobridge-site есть коммит с `ChatWidget.tsx`, `app/api/chat`, `lib/rag/chunks.json`.
 
 → Напишите «шаг 1 готов» — дам шаг 2.
 

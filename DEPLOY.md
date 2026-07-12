@@ -8,7 +8,7 @@ Create a repository and push this project.
 
 ```bash
 cd /opt
-git clone https://github.com/bazhen82/neirobridge-site.git
+git clone https://github.com/NeiroBridge/neirobridge-site.git
 cd /opt/neirobridge-site
 ```
 
