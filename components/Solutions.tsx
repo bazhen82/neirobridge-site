@@ -36,7 +36,7 @@ const solutions = [
 
 export function Solutions() {
   return (
-    <section id="solutions" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="solutions" className="scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <Reveal className="max-w-3xl">
           <p className="font-mono text-sm uppercase tracking-[0.32em] text-cyan-200">Solutions</p>

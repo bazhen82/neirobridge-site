@@ -4,7 +4,7 @@ import { Reveal } from "./Reveal";
 
 export function Contact() {
   return (
-    <section id="contacts" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="contacts" className="scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8">
       <Reveal className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-cyan-200/25 bg-cyan-200/10 p-1 shadow-[0_0_80px_rgba(103,246,255,0.14)]">
         <div className="relative rounded-[1.8rem] bg-[#031018]/95 p-8 sm:p-12">
           <div className="absolute right-8 top-8 hidden text-cyan-200/20 sm:block">
@@ -24,7 +24,7 @@ export function Contact() {
                 <a
                   href="https://t.me/neirobridge_ai"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 rounded-full border border-cyan-200/30 px-5 py-3 font-semibold text-cyan-100 transition hover:-translate-y-1 hover:bg-cyan-200/10"
                 >
                   <MessageCircle className="h-5 w-5" />
@@ -33,7 +33,7 @@ export function Contact() {
                 <a
                   href="https://t.me/neirobridge_cases"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 rounded-full border border-cyan-200/30 px-5 py-3 font-semibold text-cyan-100 transition hover:-translate-y-1 hover:bg-cyan-200/10"
                 >
                   <Radio className="h-5 w-5" />

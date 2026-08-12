@@ -21,7 +21,7 @@ const focusAreas = [
 
 export function About() {
   return (
-    <section id="about" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="about" className="scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         <Reveal className="glass-panel rounded-[2rem] p-8 sm:p-10">
           <p className="font-mono text-sm uppercase tracking-[0.32em] text-cyan-200">About</p>

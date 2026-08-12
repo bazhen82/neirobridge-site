@@ -39,7 +39,7 @@ function getTags(repo: GitHubRepo) {
 
 export function Projects({ repos }: { repos: GitHubRepo[] }) {
   return (
-    <section id="projects" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="projects" className="scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <Reveal className="max-w-3xl">
           <p className="font-mono text-sm uppercase tracking-[0.32em] text-cyan-200">Portfolio</p>
@@ -55,7 +55,7 @@ export function Projects({ repos }: { repos: GitHubRepo[] }) {
               <motion.a
                 href={repo.html_url}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="glass-panel group block h-full rounded-[1.75rem] p-6 transition"
                 whileHover={{ y: -10, scale: 1.015 }}
               >

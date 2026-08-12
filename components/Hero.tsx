@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, Bot, Network, Sparkles } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const metrics = [
   { value: "24/7", label: "AI-агенты в работе" },
@@ -10,8 +10,10 @@ const metrics = [
 ];
 
 export function Hero() {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <section id="hero" className="relative flex min-h-screen items-center overflow-hidden px-4 pt-28 sm:px-6 lg:px-8">
+    <section id="hero" className="relative flex min-h-screen scroll-mt-24 items-center overflow-hidden px-4 pt-28 sm:px-6 lg:px-8">
       <div className="mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
         <motion.div
           initial={{ opacity: 0, y: 32 }}
@@ -72,7 +74,7 @@ export function Hero() {
             </div>
             <div className="mx-auto flex h-48 w-48 items-center justify-center rounded-full border border-cyan-200/20 bg-cyan-200/5 shadow-[0_0_80px_rgba(103,246,255,0.18)]">
               <motion.div
-                animate={{ rotate: 360 }}
+                animate={reduceMotion ? undefined : { rotate: 360 }}
                 transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
                 className="flex h-36 w-36 items-center justify-center rounded-full border border-dashed border-cyan-200/50"
               >
@@ -84,7 +86,7 @@ export function Hero() {
                 <motion.div
                   key={item}
                   className="flex items-center justify-between rounded-2xl border border-cyan-200/10 bg-black/20 px-4 py-3"
-                  animate={{ x: [0, index % 2 === 0 ? 10 : -10, 0] }}
+                  animate={reduceMotion ? undefined : { x: [0, index % 2 === 0 ? 10 : -10, 0] }}
                   transition={{ duration: 5 + index, repeat: Infinity, ease: "easeInOut" }}
                 >
                   <span className="text-sm text-slate-200">{item}</span>

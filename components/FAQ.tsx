@@ -25,7 +25,7 @@ const questions = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="faq" className="scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.75fr_1.25fr]">
         <Reveal>
           <p className="font-mono text-sm uppercase tracking-[0.32em] text-cyan-200">FAQ</p>

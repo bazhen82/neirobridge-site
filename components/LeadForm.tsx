@@ -54,6 +54,8 @@ export function LeadForm() {
           <input
             name="name"
             required
+            maxLength={120}
+            autoComplete="name"
             className="rounded-2xl border border-cyan-200/15 bg-black/30 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-200/60"
             placeholder="Максим"
           />
@@ -62,6 +64,8 @@ export function LeadForm() {
           Компания или проект
           <input
             name="company"
+            maxLength={200}
+            autoComplete="organization"
             className="rounded-2xl border border-cyan-200/15 bg-black/30 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-200/60"
             placeholder="Название или сфера"
           />
@@ -73,6 +77,8 @@ export function LeadForm() {
         <input
           name="contact"
           required
+          maxLength={200}
+          autoComplete="tel"
           className="rounded-2xl border border-cyan-200/15 bg-black/30 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-200/60"
           placeholder="Telegram, e-mail или телефон"
         />
@@ -84,6 +90,7 @@ export function LeadForm() {
           name="task"
           required
           rows={5}
+          maxLength={2000}
           className="resize-none rounded-2xl border border-cyan-200/15 bg-black/30 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-200/60"
           placeholder="Опишите процесс, рутину или идею AI-агента"
         />

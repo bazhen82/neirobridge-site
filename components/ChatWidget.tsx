@@ -32,6 +32,22 @@ function useContainScroll(ref: RefObject<HTMLDivElement | null>, enabled: boolea
   }, [ref, enabled]);
 }
 
+function readStorage(key: string) {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function writeStorage(key: string, value: string) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Private mode / blocked storage should not break the widget.
+  }
+}
+
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<View>("chat");
@@ -55,7 +71,7 @@ export function ChatWidget() {
   useContainScroll(leadRef, open && view === "lead");
 
   useEffect(() => {
-    const seen = localStorage.getItem("arkadiy-hint-seen");
+    const seen = readStorage("arkadiy-hint-seen");
     if (!seen) {
       const timer = setTimeout(() => setShowHint(true), 2500);
       return () => clearTimeout(timer);
@@ -68,7 +84,7 @@ export function ChatWidget() {
 
   function dismissHint() {
     setShowHint(false);
-    localStorage.setItem("arkadiy-hint-seen", "1");
+    writeStorage("arkadiy-hint-seen", "1");
   }
 
   function openWidget() {
@@ -254,7 +270,7 @@ export function ChatWidget() {
                     />
                     <button
                       type="submit"
-                      disabled={loading}
+                      disabled={loading || !input.trim()}
                       className="neon-button shrink-0 rounded-full bg-cyan-300 p-2 text-slate-950 disabled:opacity-50"
                       aria-label="Отправить"
                     >
@@ -292,12 +308,16 @@ export function ChatWidget() {
                   <input
                     name="name"
                     required
+                    maxLength={120}
+                    autoComplete="name"
                     placeholder="Ваше имя"
                     className="rounded-2xl border border-cyan-200/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus:border-cyan-200/50"
                   />
                   <input
                     name="contact"
                     required
+                    maxLength={200}
+                    autoComplete="tel"
                     placeholder="Telegram, e-mail или телефон"
                     className="rounded-2xl border border-cyan-200/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus:border-cyan-200/50"
                   />
@@ -305,6 +325,7 @@ export function ChatWidget() {
                     name="task"
                     required
                     rows={4}
+                    maxLength={2000}
                     defaultValue={leadTask}
                     placeholder="Что хотите автоматизировать?"
                     className="resize-none rounded-2xl border border-cyan-200/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus:border-cyan-200/50"
@@ -337,6 +358,7 @@ export function ChatWidget() {
         type="button"
         onClick={() => (open ? setOpen(false) : openWidget())}
         className="neon-button fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-cyan-300 text-slate-950 shadow-[0_0_28px_rgba(103,246,255,0.45)] transition hover:-translate-y-0.5 hover:bg-cyan-200"
+        aria-expanded={open}
         aria-label={open ? "Свернуть чат" : "Открыть чат с Аркадием"}
       >
         {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}

@@ -1,23 +1,30 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ChatWidget } from "@/components/ChatWidget";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"]
+  subsets: ["latin", "cyrillic"]
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["latin"]
+  subsets: ["latin", "cyrillic"]
 });
+
+export const viewport: Viewport = {
+  themeColor: "#02070b"
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://neirobridge.ru"),
   title: "NeiroBridge — Интеллектуальные решения для бизнеса",
   description:
-    "Портфолио NeuroBridge: автоматизация бизнес-процессов, AI-агенты, n8n-интеграции и интеллектуальные решения.",
+    "NeiroBridge: автоматизация бизнес-процессов, AI-агенты, n8n-интеграции и интеллектуальные решения для малого и среднего бизнеса.",
+  alternates: {
+    canonical: "/"
+  },
   icons: {
     icon: "/favicon.png",
     apple: "/favicon.png"
@@ -37,6 +44,12 @@ export const metadata: Metadata = {
     ],
     locale: "ru_RU",
     type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NeiroBridge — Интеллектуальные решения для бизнеса",
+    description: "Автоматизация, AI-агенты и интеграции для роста бизнеса.",
+    images: ["/og-neirobridge.jpg"]
   }
 };
 

@@ -25,7 +25,7 @@ const steps = [
 
 export function Process() {
   return (
-    <section id="process" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="process" className="scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="font-mono text-sm uppercase tracking-[0.32em] text-cyan-200">Workflow</p>
