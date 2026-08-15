@@ -19,9 +19,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://neirobridge.ru"),
-  title: "NeiroBridge — Интеллектуальные решения для бизнеса",
+  title: "NeiroBridge — мост между нейросетями и бизнесом",
   description:
-    "NeiroBridge: автоматизация бизнес-процессов, AI-агенты, n8n-интеграции и интеллектуальные решения для малого и среднего бизнеса.",
+    "NeiroBridge помогает бизнесу быстрее обрабатывать заявки, отвечать клиентам и убирать рутину с помощью AI-агентов и автоматизации.",
   alternates: {
     canonical: "/"
   },
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     apple: "/favicon.png"
   },
   openGraph: {
-    title: "NeiroBridge — Интеллектуальные решения для бизнеса",
-    description: "Автоматизация, AI-агенты и интеграции для роста бизнеса.",
+    title: "NeiroBridge — мост между нейросетями и бизнесом",
+    description: "AI-агенты и автоматизация для заявок, поддержки и процессов малого и среднего бизнеса.",
     url: "https://neirobridge.ru",
     siteName: "NeiroBridge",
     images: [
@@ -47,8 +47,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "NeiroBridge — Интеллектуальные решения для бизнеса",
-    description: "Автоматизация, AI-агенты и интеграции для роста бизнеса.",
+    title: "NeiroBridge — мост между нейросетями и бизнесом",
+    description: "AI-агенты и автоматизация для заявок, поддержки и процессов малого и среднего бизнеса.",
     images: ["/og-neirobridge.jpg"]
   }
 };

@@ -5,9 +5,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navItems = [
-  { href: "#about", label: "Обо мне" },
+  { href: "#about", label: "О студии" },
   { href: "#solutions", label: "Решения" },
-  { href: "#projects", label: "Проекты" },
+  { href: "#projects", label: "Кейсы" },
   { href: "#faq", label: "FAQ" },
   { href: "#contacts", label: "Контакты" }
 ];
