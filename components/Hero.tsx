@@ -4,9 +4,9 @@ import { ArrowRight, Bot, Network, Sparkles } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 const metrics = [
-  { value: "24/7", label: "AI-агенты в работе" },
-  { value: "n8n", label: "оркестрация процессов" },
-  { value: "LLM", label: "интеллект в бизнес-логике" }
+  { value: "Заявки", label: "без ручного разбора ночью" },
+  { value: "Поддержка", label: "ответы по базе знаний" },
+  { value: "Процессы", label: "меньше рутины в команде" }
 ];
 
 export function Hero() {
@@ -22,14 +22,14 @@ export function Hero() {
         >
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-200/20 bg-cyan-200/5 px-4 py-2 text-sm text-cyan-100">
             <Sparkles className="h-4 w-4" />
-            AI Automation Studio для малого и среднего бизнеса
+            Для малого и среднего бизнеса
           </div>
-          <h1 className="neon-text max-w-4xl text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl lg:text-7xl">
-            NeiroBridge — Интеллектуальные решения для вашего бизнеса
+          <h1 className="neon-text max-w-4xl text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+            NeiroBridge — мост между нейросетями и бизнесом
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
-            Проектирую AI-агентов и n8n-сценарии для заявок, поддержки, задач, CRM и аналитики, чтобы бизнес
-            быстрее обрабатывал обращения и меньше зависел от ручной рутины.
+            Помогаем компаниям быстрее обрабатывать заявки, отвечать клиентам и убирать ручную рутину с помощью
+            AI-агентов и автоматизации процессов.
           </p>
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
             <a
@@ -40,10 +40,10 @@ export function Hero() {
               <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
             </a>
             <a
-              href="#solutions"
+              href="#projects"
               className="inline-flex items-center justify-center rounded-full border border-cyan-200/25 px-7 py-4 font-semibold text-cyan-100 transition hover:-translate-y-1 hover:bg-cyan-200/10"
             >
-              Посмотреть решения
+              Смотреть кейсы
             </a>
           </div>
           <div className="mt-10 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
