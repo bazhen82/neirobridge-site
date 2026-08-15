@@ -41,4 +41,4 @@ LEAD_TO_EMAIL=bazhenov.maxim@gmail.com
 
 - Telegram: `@neirobridge_ai`, канал кейсов: https://t.me/neirobridge_cases — в `components/Contact.tsx`.
 - GitHub-репозитории загружаются в `lib/github.ts`.
-- Логотип подключен как `public/favicon.png` и `public/og-neirobridge.png`.
+- Логотип подключен как `public/favicon.png` и `public/og-neirobridge.jpg`.

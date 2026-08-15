@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Bot, Brain, Code2, Container, DatabaseZap, GitGraph, Globe, Network, ServerCog, Workflow } from "lucide-react";
 import { Reveal } from "./Reveal";
 
@@ -22,8 +22,10 @@ const stack = [
 ];
 
 export function TechStack() {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <section id="stack" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="stack" className="scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="font-mono text-sm uppercase tracking-[0.32em] text-cyan-200">Tech Stack</p>
@@ -41,7 +43,7 @@ export function TechStack() {
               <Reveal key={item.name} delay={index * 0.05}>
                 <motion.div
                   className="glass-panel group flex min-h-36 flex-col items-center justify-center rounded-[1.5rem] p-5 text-center"
-                  animate={{ y: [0, index % 2 === 0 ? -8 : 8, 0] }}
+                  animate={reduceMotion ? undefined : { y: [0, index % 2 === 0 ? -8 : 8, 0] }}
                   transition={{ duration: 5 + index * 0.25, repeat: Infinity, ease: "easeInOut" }}
                   whileHover={{ scale: 1.05 }}
                 >

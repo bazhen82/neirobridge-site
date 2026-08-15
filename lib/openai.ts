@@ -28,8 +28,12 @@ export async function embedText(text: string): Promise<number[]> {
     throw new Error(`Embeddings API error: ${response.status} ${detail}`);
   }
 
-  const data = (await response.json()) as { data: { embedding: number[] }[] };
-  return data.data[0].embedding;
+  const data = (await response.json()) as { data?: { embedding?: number[] }[] };
+  const embedding = data.data?.[0]?.embedding;
+  if (!embedding?.length) {
+    throw new Error("Embeddings API returned an empty vector");
+  }
+  return embedding;
 }
 
 export async function chatCompletion(messages: { role: string; content: string }[]) {

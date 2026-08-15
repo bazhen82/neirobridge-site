@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 type LeadPayload = {
   name?: string;
@@ -25,6 +26,11 @@ function isEmail(value: string) {
 
 export async function POST(request: Request) {
   try {
+    const ip = getClientIp(request);
+    if (!checkRateLimit("lead", ip, 8, 60 * 60 * 1000)) {
+      return NextResponse.json({ message: "Слишком много заявок. Попробуйте позже." }, { status: 429 });
+    }
+
     const body = (await request.json()) as LeadPayload;
 
     if (body.website) {

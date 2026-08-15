@@ -111,12 +111,17 @@ export function getRepoDisplayName(name: string) {
 
 export async function getGitHubRepos(): Promise<GitHubRepo[]> {
   try {
+    const headers: Record<string, string> = {
+      Accept: "application/vnd.github+json",
+      "User-Agent": "NeiroBridge-Site (https://neirobridge.ru)"
+    };
+    const token = process.env.GITHUB_TOKEN;
+    if (token) headers.Authorization = `Bearer ${token}`;
+
     const response = await fetch(
       `https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=12`,
       {
-        headers: {
-          Accept: "application/vnd.github+json"
-        },
+        headers,
         next: {
           revalidate: 3600
         }
