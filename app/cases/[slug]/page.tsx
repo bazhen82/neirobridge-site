@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink, MessageCircle } from "lucide-react";
@@ -24,7 +25,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: item.title,
       description: item.summary,
-      url: `https://neirobridge.ru/cases/${item.slug}`
+      url: `https://neirobridge.ru/cases/${item.slug}`,
+      images:
+        item.slug === "deskmate"
+          ? [{ url: "/cases/deskmate-cover.jpg", width: 1600, height: 900, alt: item.title }]
+          : undefined
     }
   };
 }
@@ -49,6 +54,19 @@ export default async function CasePage({ params }: PageProps) {
           <ArrowLeft className="h-4 w-4" />
           Назад к кейсам
         </Link>
+
+        {item.slug === "deskmate" && (
+          <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-[1.75rem] border border-cyan-200/15">
+            <Image
+              src="/cases/deskmate-cover.jpg"
+              alt="DeskMate — обложка кейса"
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 896px) 100vw, 896px"
+            />
+          </div>
+        )}
 
         <p className="mt-10 font-mono text-sm uppercase tracking-[0.32em] text-cyan-200">{item.eyebrow}</p>
         <h1 className="mt-4 text-3xl font-black text-white sm:text-5xl">{item.title}</h1>
