@@ -65,6 +65,20 @@ export const cases: CaseStudy[] = [
     highlights: [],
     metrics: [],
     githubUrl: "https://github.com/NeiroBridge/RivalScope"
+  },
+  {
+    slug: "style-lora",
+    title: "Дообучение модели под стиль ответов",
+    eyebrow: "LoRA · pipeline",
+    summary: "Воспроизводимый пайплайн: свой датасет, LoRA-адаптер и чат без GPU.",
+    task: "Нужен прозрачный процесс дообучения: свой датасет, адаптер и запуск чата на слабом железе, без аренды GPU.",
+    solution:
+      "CPU-обучение rugpt3small + LoRA на 122 парах в стиле наставника. Репозиторий со скриптами, датасетом и отчётом.",
+    result:
+      "Пайплайн собран и опубликован. На слабом CPU качество ответов слабое — кейс про процесс, не про «умную модель».",
+    highlights: [],
+    metrics: [],
+    githubUrl: "https://github.com/NeiroBridge/style-lora-mentor"
   }
 ];
 

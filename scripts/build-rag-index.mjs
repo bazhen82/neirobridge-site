@@ -7,6 +7,29 @@ const root = path.join(__dirname, "..");
 const knowledgeDir = path.join(root, "lib", "knowledge");
 const outFile = path.join(root, "lib", "rag", "chunks.json");
 
+function loadEnv() {
+  const envPath = path.join(root, ".env");
+  if (!fs.existsSync(envPath)) return;
+  const text = fs.readFileSync(envPath, "utf-8");
+  for (const line of text.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq < 1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    let value = trimmed.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    if (!process.env[key]) process.env[key] = value;
+  }
+}
+
+loadEnv();
+
 const CHUNK_SIZE = 900;
 const CHUNK_OVERLAP = 120;
 const BASE_URL = process.env.OPENAI_BASE_URL ?? "https://api.proxyapi.ru/openai/v1";
@@ -34,12 +57,23 @@ function splitText(source, text) {
   return parts.map((part, index) => ({ source: `${source}#${index + 1}`, text: part }));
 }
 
+function loadFaqChunks() {
+  const file = path.join(knowledgeDir, "faqs.json");
+  if (!fs.existsSync(file)) return [];
+  const items = JSON.parse(fs.readFileSync(file, "utf-8"));
+  return items.map((item, index) => ({
+    source: `faqs.json#${index + 1}`,
+    text: `Вопрос: ${item.question}\nОтвет: ${item.answer}`
+  }));
+}
+
 function buildChunks() {
   const files = fs.readdirSync(knowledgeDir).filter((f) => f.endsWith(".txt"));
-  return files.flatMap((file) => {
+  const textChunks = files.flatMap((file) => {
     const text = fs.readFileSync(path.join(knowledgeDir, file), "utf-8");
     return splitText(file, text);
   });
+  return [...loadFaqChunks(), ...textChunks];
 }
 
 async function embed(text) {

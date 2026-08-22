@@ -4,11 +4,27 @@ import path from "path";
 const CHUNK_SIZE = 900;
 const CHUNK_OVERLAP = 120;
 
+type FaqPair = {
+  question: string;
+  answer: string;
+};
+
 export function loadKnowledgeTexts(knowledgeDir: string): { source: string; text: string }[] {
   const files = fs.readdirSync(knowledgeDir).filter((f) => f.endsWith(".txt"));
   return files.map((file) => ({
     source: file,
     text: fs.readFileSync(path.join(knowledgeDir, file), "utf-8")
+  }));
+}
+
+export function loadFaqChunks(knowledgeDir: string): { source: string; text: string }[] {
+  const file = path.join(knowledgeDir, "faqs.json");
+  if (!fs.existsSync(file)) return [];
+
+  const items = JSON.parse(fs.readFileSync(file, "utf-8")) as FaqPair[];
+  return items.map((item, index) => ({
+    source: `faqs.json#${index + 1}`,
+    text: `Вопрос: ${item.question}\nОтвет: ${item.answer}`
   }));
 }
 
@@ -42,5 +58,6 @@ export function splitText(source: string, text: string): { source: string; text:
 
 export function buildChunksFromKnowledge(knowledgeDir: string) {
   const docs = loadKnowledgeTexts(knowledgeDir);
-  return docs.flatMap((doc) => splitText(doc.source, doc.text));
+  const textChunks = docs.flatMap((doc) => splitText(doc.source, doc.text));
+  return [...loadFaqChunks(knowledgeDir), ...textChunks];
 }

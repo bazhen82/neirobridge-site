@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { chatCompletion, embedText } from "@/lib/openai";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-import { formatContext, searchChunks } from "@/lib/rag/search";
+import { formatFaqContext, matchFaqs } from "@/lib/rag/faq-match";
+import { buildSearchQuery } from "@/lib/rag/followup";
+import { formatContext, searchChunks, uniqueSourceTitles } from "@/lib/rag/search";
 import type { ChatMessage, ChatResponse } from "@/lib/rag/types";
 
 type ChatPayload = {
@@ -96,10 +98,12 @@ export async function POST(request: Request) {
     }
 
     const history = sanitizeHistory(body.history);
-    const queryEmbedding = await embedText(message);
+    const searchQuery = buildSearchQuery(message, history);
+    const faqHits = matchFaqs(searchQuery);
+    const queryEmbedding = await embedText(searchQuery);
     const { results, bestScore, isRelevant } = searchChunks(queryEmbedding, 3);
 
-    if (!isRelevant) {
+    if (!isRelevant && faqHits.length === 0) {
       const payload: ChatResponse = {
         reply: FALLBACK_REPLY,
         foundInKnowledge: false,
@@ -109,7 +113,9 @@ export async function POST(request: Request) {
       return NextResponse.json(payload);
     }
 
-    const context = formatContext(results);
+    const context = [formatFaqContext(faqHits), isRelevant ? formatContext(results) : ""]
+      .filter(Boolean)
+      .join("\n\n");
     const system = `Ты — Аркадий, Neiro-консультант студии NeiroBridge (neirobridge.ru).
 Отвечай ТОЛЬКО на основе контекста из базы знаний. Не выдумывай цены и условия.
 Если в контексте нет данных — скажи, что нужна бесплатная диагностика.
@@ -132,7 +138,13 @@ ${context}`;
       reply: reply || FALLBACK_REPLY,
       foundInKnowledge: true,
       suggestLead: true,
-      topScore: bestScore
+      topScore: bestScore,
+      sources: [
+        ...new Set([
+          ...(faqHits.length ? ["FAQ"] : []),
+          ...(isRelevant ? uniqueSourceTitles(results) : [])
+        ])
+      ].slice(0, 2)
     };
 
     return NextResponse.json(payload);

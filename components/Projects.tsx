@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Coffee, ScanSearch, Sparkles } from "lucide-react";
+import { ArrowUpRight, Coffee, Cpu, ScanSearch, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { cases } from "@/lib/cases";
 import { Reveal } from "./Reveal";
@@ -9,7 +9,8 @@ import { Reveal } from "./Reveal";
 const icons = {
   beanbonus: Coffee,
   deskmate: Sparkles,
-  rivalscope: ScanSearch
+  rivalscope: ScanSearch,
+  "style-lora": Cpu
 } as const;
 
 export function Projects() {
