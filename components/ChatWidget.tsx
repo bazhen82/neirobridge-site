@@ -115,6 +115,7 @@ export function ChatWidget() {
         reply?: string;
         message?: string;
         suggestLead?: boolean;
+        sources?: string[];
       };
 
       const reply =
@@ -122,7 +123,14 @@ export function ChatWidget() {
         data.message ??
         "Не удалось получить ответ. Можете оставить заявку на бесплатную диагностику.";
 
-      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: reply,
+          sources: Array.isArray(data.sources) ? data.sources.slice(0, 2) : undefined
+        }
+      ]);
 
       if (data.suggestLead) {
         setLeadTask((prev) => prev || `Вопрос из чата: ${question}`);
@@ -232,6 +240,11 @@ export function ChatWidget() {
                       }`}
                     >
                       {message.content}
+                      {message.role === "assistant" && message.sources && message.sources.length > 0 ? (
+                        <p className="mt-1.5 text-[11px] leading-4 text-cyan-200/55">
+                          Источник: {message.sources.join(" · ")}
+                        </p>
+                      ) : null}
                     </div>
                   ))}
                   {loading && (

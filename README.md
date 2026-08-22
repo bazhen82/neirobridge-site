@@ -2,6 +2,8 @@
 
 Одностраничный сайт-портфолио в стиле Futuristic/Cyberpunk Business для домена `neirobridge.ru`.
 
+**Версия: 0.2.0** (22.08.2026) — то же число в `package.json`. История — в `CHANGELOG.md`.
+
 ## Стек
 
 - Next.js App Router

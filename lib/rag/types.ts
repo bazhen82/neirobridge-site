@@ -8,6 +8,7 @@ export type RagChunk = {
 export type ChatMessage = {
   role: "user" | "assistant";
   content: string;
+  sources?: string[];
 };
 
 export type ChatResponse = {
@@ -15,4 +16,5 @@ export type ChatResponse = {
   foundInKnowledge: boolean;
   suggestLead: boolean;
   topScore?: number;
+  sources?: string[];
 };
